@@ -547,7 +547,7 @@ export class DragResizeBlock extends Component {
    * Render connector components.
    */
   renderConnectors = () => {
-    const { connectors } = this.props;
+    const { connectors, connectorSize, connectorStyles } = this.props;
 
     const { w, h } = this.state;
 
@@ -562,6 +562,7 @@ export class DragResizeBlock extends Component {
           onStart={this.connectorsMap[connectorType].onStart}
           onMove={this.connectorsMap[connectorType].onMove}
           onEnd={this.connectorsMap[connectorType].onEnd}
+          connectorStyles={connectorStyles}
         />
       );
     });
