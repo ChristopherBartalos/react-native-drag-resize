@@ -19,7 +19,7 @@ export const AXIS_X = "x";
 export const AXIS_Y = "y";
 export const AXIS_ALL = "all";
 
-const CONNECTOR_SIZE = 14;
+const PADDING_CONNECTOR_BOX = 14;
 const DEFAULT_Z_INDEX = 1;
 
 /**
@@ -29,7 +29,7 @@ export class DragResizeBlock extends Component {
   constructor(props) {
     super(props);
 
-    const { x, y, w, h, minW, minH, visible } = props;
+    const { x, y, w, h, minW, minH, visible, connectorSize } = props;
 
     this.state = {
       isSelected: false,
@@ -64,7 +64,9 @@ export class DragResizeBlock extends Component {
      */
     this.connectorsMap[CONNECTOR_TOP_MIDDLE] = {
       calculateX: (width) => {
-        return width / 2 - CONNECTOR_SIZE / 2;
+        return width / 2 - connectorSize
+          ? connectorSize
+          : PADDING_CONNECTOR_BOX / 2;
       },
       calculateY: (height) => {
         return 0;
@@ -79,7 +81,7 @@ export class DragResizeBlock extends Component {
      */
     this.connectorsMap[CONNECTOR_TOP_RIGHT] = {
       calculateX: (width) => {
-        return width - CONNECTOR_SIZE;
+        return width - connectorSize ? connectorSize : PADDING_CONNECTOR_BOX;
       },
       calculateY: (height) => {
         return 0;
@@ -94,10 +96,12 @@ export class DragResizeBlock extends Component {
      */
     this.connectorsMap[CONNECTOR_MIDDLE_RIGHT] = {
       calculateX: (width) => {
-        return width - CONNECTOR_SIZE;
+        return width - connectorSize ? connectorSize : PADDING_CONNECTOR_BOX;
       },
       calculateY: (height) => {
-        return height / 2 - CONNECTOR_SIZE / 2;
+        return height / 2 - connectorSize
+          ? connectorSize
+          : PADDING_CONNECTOR_BOX / 2;
       },
       onStart: this.onResizeStart,
       onMove: this.onResizeMR,
@@ -109,10 +113,10 @@ export class DragResizeBlock extends Component {
      */
     this.connectorsMap[CONNECTOR_BOTTOM_RIGHT] = {
       calculateX: (width) => {
-        return width - CONNECTOR_SIZE;
+        return width - connectorSize ? connectorSize : PADDING_CONNECTOR_BOX;
       },
       calculateY: (height) => {
-        return height - CONNECTOR_SIZE;
+        return height - connectorSize ? connectorSize : PADDING_CONNECTOR_BOX;
       },
       onStart: this.onResizeStart,
       onMove: this.onResizeBR,
@@ -124,10 +128,12 @@ export class DragResizeBlock extends Component {
      */
     this.connectorsMap[CONNECTOR_BOTTOM_MIDDLE] = {
       calculateX: (width) => {
-        return width / 2 - CONNECTOR_SIZE / 2;
+        return width / 2 - connectorSize
+          ? connectorSize
+          : PADDING_CONNECTOR_BOX / 2;
       },
       calculateY: (height) => {
-        return height - CONNECTOR_SIZE;
+        return height - connectorSize ? connectorSize : PADDING_CONNECTOR_BOX;
       },
       onStart: this.onResizeStart,
       onMove: this.onResizeBM,
@@ -142,7 +148,7 @@ export class DragResizeBlock extends Component {
         return 0;
       },
       calculateY: (height) => {
-        return height - CONNECTOR_SIZE;
+        return height - connectorSize ? connectorSize : PADDING_CONNECTOR_BOX;
       },
       onStart: this.onResizeStart,
       onMove: this.onResizeBL,
@@ -157,7 +163,9 @@ export class DragResizeBlock extends Component {
         return 0;
       },
       calculateY: (height) => {
-        return height / 2 - CONNECTOR_SIZE / 2;
+        return height / 2 - connectorSize
+          ? connectorSize
+          : PADDING_CONNECTOR_BOX / 2;
       },
       onStart: this.onResizeStart,
       onMove: this.onResizeML,
@@ -169,10 +177,14 @@ export class DragResizeBlock extends Component {
      */
     this.connectorsMap[CONNECTOR_CENTER] = {
       calculateX: (width) => {
-        return width / 2 - CONNECTOR_SIZE / 2;
+        return width / 2 - connectorSize
+          ? connectorSize
+          : PADDING_CONNECTOR_BOX / 2;
       },
       calculateY: (height) => {
-        return height / 2 - CONNECTOR_SIZE / 2;
+        return height / 2 - connectorSize
+          ? connectorSize
+          : PADDING_CONNECTOR_BOX / 2;
       },
       onStart: this.onDragStart,
       onMove: this.onDrag,
@@ -544,7 +556,7 @@ export class DragResizeBlock extends Component {
         <Connector
           key={connectorType}
           type={connectorType}
-          size={CONNECTOR_SIZE}
+          size={connectorSize ? connectorSize : PADDING_CONNECTOR_BOX}
           x={this.connectorsMap[connectorType].calculateX(w)}
           y={this.connectorsMap[connectorType].calculateY(h)}
           onStart={this.connectorsMap[connectorType].onStart}
@@ -569,7 +581,7 @@ export class DragResizeBlock extends Component {
             top: y,
             width: w,
             height: h,
-            padding: CONNECTOR_SIZE / 2,
+            padding: PADDING_CONNECTOR_BOX / 2,
             zIndex: isSelected ? zIndex + 1 : zIndex,
           }}
         >
