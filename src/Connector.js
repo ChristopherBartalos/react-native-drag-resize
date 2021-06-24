@@ -78,28 +78,27 @@ export class Connector extends Component {
   }
 
   render() {
-    const { connectorStyles } = this.props;
+    const { connectorStyles, x, y, size } = this.props;
 
     return (
       <View
-        style={{ ...styles.connectorStyle, ...connectorStyles }}
+        style={{
+          ...{
+            position: "absolute",
+            left: x,
+            top: y,
+            width: size,
+            height: size,
+            borderWidth: 2,
+            borderColor: "black",
+            backgroundColor: "white",
+          },
+          ...connectorStyles,
+        }}
         {...this._panResponder.panHandlers}
       />
     );
   }
-
-  styles = StyleSheet.create({
-    connectorStyle: {
-      position: "absolute",
-      left: this.props.x,
-      top: this.props.y,
-      width: this.props.size,
-      height: this.props.size,
-      borderWidth: 2,
-      borderColor: "black",
-      backgroundColor: "white",
-    },
-  });
 }
 
 Connector.propTypes = {
