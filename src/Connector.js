@@ -78,15 +78,44 @@ export class Connector extends Component {
   }
 
   render() {
-    const { connectorStyles, x, y, size } = this.props;
+    const { connectorStyles, x, y, size, type } = this.props;
+
+    // Moves the Connector to the correct position since i removed the padding on the block
+    // because it altered the return value of the frame block.
+
+    let positionLeft;
+    let positionTop;
+
+    switch (type) {
+      case "bl":
+        positionLeft = x - size / 2;
+        positionTop = y + size / 2;
+        break;
+      case "tr":
+        positionLeft = x + size / 2;
+        positionTop = y - size / 2;
+        break;
+      case "tl":
+        positionLeft = x - size / 2;
+        positionTop = y - size / 2;
+        break;
+      case "br":
+        positionLeft = x + size / 2;
+        positionTop = y + size / 2;
+        break;
+      default:
+        positionLeft = x;
+        positionTop = y;
+        break;
+    }
 
     return (
       <View
         style={{
           ...{
             position: "absolute",
-            left: x,
-            top: y,
+            left: positionLeft,
+            top: positionTop,
             width: size,
             height: size,
             borderWidth: 2,
